@@ -1,0 +1,34 @@
+.block {
+  display: block;
+}
+
+.limit-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.thumbnail {
+  height: 20rem;
+}
+
+.book-cover {
+  width: 20rem;
+}
+
+.item {
+  width: 18rem;
+}
+
+.item:hover {
+  cursor: pointer;
+}
+
+.item h5:hover {
+  color: rgb(98, 98, 255);
+}
+
+.title {
+  height: 40px;
+}

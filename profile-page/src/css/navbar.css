@@ -1,0 +1,14 @@
+ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+}
+
+li {
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
