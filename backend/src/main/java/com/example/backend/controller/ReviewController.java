@@ -34,8 +34,18 @@ public class ReviewController {
         return reviewService.updateReview(id, review);
     }
 
+    @PutMapping("/updatereviewbybookidanduserid/{bookId}/{userId}")
+    public ResponseEntity<Review> updateReviewByBookIdAndUserId(@PathVariable Long bookId, @PathVariable Long userId, @RequestBody Review review) {
+        return reviewService.updateReviewByBookIdAndUserId(bookId, userId, review);
+    }
+
     @DeleteMapping("/reviews/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteReview(@PathVariable Long id) {
         return reviewService.deleteReview(id);
+    }
+
+    @DeleteMapping("/deletereviewbybookidanduserid/{bookId}/{userId}")
+    public ResponseEntity<Map<String, Boolean>> deleteReviewByBookIdAndUserId(@PathVariable Long bookId, @PathVariable Long userId) {
+        return reviewService.deleteReviewByBookIdAndUserId(bookId, userId);
     }
 }

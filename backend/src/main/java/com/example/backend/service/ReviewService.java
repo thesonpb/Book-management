@@ -42,9 +42,25 @@ public class ReviewService {
         return ResponseEntity.ok(updatedReview);
     }
 
+    public ResponseEntity<Review> updateReviewByBookIdAndUserId(Long bookId, Long userId, Review review) {
+        Review review1 = reviewRepository.findByBookIdAndUserId(bookId, userId);
+        review1.setContent(review.getContent());
+        review1.setLike(review.getLike());
+        Review updatedReview = reviewRepository.save(review1);
+        return ResponseEntity.ok(updatedReview);
+    }
+
     public ResponseEntity<Map<String, Boolean>> deleteReview(Long id) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No books exist with id:" + id));
+        reviewRepository.delete(review);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", true);
+        return ResponseEntity.ok(response);
+    }
+
+    public ResponseEntity<Map<String, Boolean>> deleteReviewByBookIdAndUserId(Long bookId, Long userId) {
+        Review review = reviewRepository.findByBookIdAndUserId(bookId, userId);
         reviewRepository.delete(review);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", true);

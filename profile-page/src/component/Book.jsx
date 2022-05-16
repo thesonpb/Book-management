@@ -35,10 +35,31 @@ function Example() {
   });
   const [review, setReview] = useState([]);
 
+  const [editing, setEditing] = useState(false);
+
   const mutation = useMutation(() => {
     return axios.delete(`http://localhost:8080/api/v1/deletebooks/${id}`, {
       headers: authHeader(),
     });
+  });
+
+  const deleteReviewMutation = useMutation(() => {
+    return axios.delete(
+      `http://localhost:8080/api/v1/deletereviewbybookidanduserid/${id}/${userData.id}`,
+      {
+        headers: authHeader(),
+      }
+    );
+  });
+
+  const editReviewMutation = useMutation(() => {
+    return axios.put(
+      `http://localhost:8080/api/v1/updatereviewbybookidanduserid/${id}/${userData.id}`,
+      newreview,
+      {
+        headers: authHeader(),
+      }
+    );
   });
 
   const {
@@ -121,12 +142,12 @@ function Example() {
                   <a href={`/edit/${id}`} className="btn btn-warning m-1">
                     Edit
                   </a>
-                  <a
+                  <button
                     onClick={() => mutation.mutate()}
                     className="btn btn-danger m-1"
                   >
                     Delete
-                  </a>
+                  </button>
                 </div>
               ) : (
                 <></>
@@ -151,9 +172,83 @@ function Example() {
                       </small>
                     </span>
                     <br />
-                    <p>{review.content}</p>
+                    {userData ? (
+                      userData.id === review.userId ? (
+                        editing ? (
+                          <input
+                            className="form-control"
+                            type="text"
+                            defaultValue={review.content}
+                            onChange={(e) => {
+                              setNewreview((previous) => {
+                                return { ...previous, content: e.target.value };
+                              });
+                              setNewreview((previous) => {
+                                return {
+                                  ...previous,
+                                  user: userData,
+                                  book: bookData,
+                                };
+                              });
+                            }}
+                          />
+                        ) : (
+                          <p>{review.content}</p>
+                        )
+                      ) : (
+                        <p>{review.content}</p>
+                      )
+                    ) : (
+                      <p>{review.content}</p>
+                    )}
+
                     <span>
-                      {review.likes} <i className="fa-solid fa-thumbs-up"></i>
+                      {/* {review.likes} <i className="fa-solid fa-thumbs-up"></i> */}
+                      {userData ? (
+                        userData.id === review.userId ? (
+                          <>
+                            {editing ? (
+                              <>
+                                <button
+                                  onClick={() => {
+                                    editReviewMutation.mutate();
+                                    window.location.href = `/books/${id}`;
+                                  }}
+                                  className="btn btn-success m-1"
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  onClick={() => setEditing(false)}
+                                  className="btn btn-info m-1"
+                                >
+                                  Cancel
+                                </button>
+                              </>
+                            ) : (
+                              <button
+                                onClick={() => setEditing(true)}
+                                className="btn btn-warning m-1"
+                              >
+                                Edit
+                              </button>
+                            )}
+                            <button
+                              className="btn btn-danger m-1"
+                              onClick={() => {
+                                deleteReviewMutation.mutate();
+                                window.location.href = `/books/${id}`;
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </>
+                        ) : (
+                          <></>
+                        )
+                      ) : (
+                        <></>
+                      )}
                     </span>
                     <hr />
                   </div>

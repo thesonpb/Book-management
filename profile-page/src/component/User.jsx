@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import NavBar from "./NavBar";
 import { useParams } from "react-router-dom";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+  useMutation,
+} from "react-query";
 import authHeader from "../services/auth-header";
+import axios from "axios";
+
 const queryClient = new QueryClient();
 
 function User() {
@@ -17,6 +24,15 @@ function Example() {
   const [user, setUser] = useState({});
   const [userreview, setUserreview] = useState([]);
   const { id } = useParams();
+
+  const deleteReviewMutation = useMutation((bookId) => {
+    return axios.delete(
+      `http://localhost:8080/api/v1/deletereviewbybookidanduserid/${bookId}/${id}`,
+      {
+        headers: authHeader(),
+      }
+    );
+  });
 
   const {
     isLoading: userLoading,
@@ -87,7 +103,16 @@ function Example() {
                     <br />
                     <p>{review.content}</p>
                     <span>
-                      {review.like} <i className="fa-solid fa-thumbs-up"></i>
+                      {/* {review.like} <i className="fa-solid fa-thumbs-up"></i> */}
+                      <button
+                        className="btn btn-danger m-1"
+                        onClick={() => {
+                          deleteReviewMutation.mutate(review.bookId);
+                          window.location.href = `/users/${id}`;
+                        }}
+                      >
+                        Delete
+                      </button>
                     </span>
                   </div>
                 </div>

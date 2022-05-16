@@ -13,6 +13,7 @@ import java.util.Map;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findAllByBookId(Long bookId);
     List<Review> findAllByUserId(Long userId);
+    Review findByBookIdAndUserId(Long bookId, Long userId);
 //    @Query("select r from Review r where r.user.id = ?1")
 //    List<User> findUserByBookId(Long bookId);
 }
