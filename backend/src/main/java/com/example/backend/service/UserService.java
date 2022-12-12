@@ -20,6 +20,10 @@ public class UserService {
         return userRepository.findById(id).get();
     }
 
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
     public List<User> getUserByBookId(Long bookId) {
         return userRepository.findUserByBookId(bookId);
     }

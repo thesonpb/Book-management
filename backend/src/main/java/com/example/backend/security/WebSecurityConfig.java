@@ -57,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/addbooks").hasRole("ADMIN")
                 .antMatchers("/api/v1/editbooks").hasRole("ADMIN")
                 .antMatchers("/api/v1/deletebooks").hasRole("ADMIN")
+                .antMatchers("/api/v1/allusers").hasRole("ADMIN")
                 .antMatchers("/api/v1/reviews").authenticated()
                 .antMatchers("/api/v1/fulluser/{id}").authenticated()
                 .anyRequest().permitAll();

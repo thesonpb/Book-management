@@ -62,6 +62,24 @@ function NavBar(props) {
           )}
 
           {localStorage.getItem("user") !== null ? (
+            JSON.parse(localStorage.getItem("user")).roles.includes(
+              "ROLE_ADMIN"
+            ) ? (
+              <li className="nav-item">
+                <h5>
+                  <a className={"nav-link "} href="/listusers">
+                    Users
+                  </a>
+                </h5>
+              </li>
+            ) : (
+              <></>
+            )
+          ) : (
+            <></>
+          )}
+
+          {localStorage.getItem("user") !== null ? (
             <li className="nav-item">
               <h5>
                 <a

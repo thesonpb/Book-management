@@ -17,6 +17,11 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    @GetMapping("/allusers")
+    public List<User> getAllUsers() {
+        return service.getAllUsers();
+    }
+
     @GetMapping("/users/{id}")
     public UserDto getUserById(@PathVariable String id) {
         User user = service.getUserById(Long.parseLong(id));
